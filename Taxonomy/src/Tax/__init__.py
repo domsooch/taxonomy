@@ -1,5 +1,5 @@
 __all__ = ['BlastHit',
-           'GiToTax',
+           'AccToTax',
            'LabelFasta',
            'Newick',
            'Taxon',

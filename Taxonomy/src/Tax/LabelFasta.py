@@ -4,7 +4,7 @@ Created on Sep 6, 2012
 @author: dominic
 '''
 import random
-import GiToTax as T
+import AccToTax as T
 import Util.FASTA as FA
 import Nodes
 

@@ -1,6 +1,6 @@
-outUD<parka>QzpcVXNlcnNcZG9taW5pY1xEb2N1bWVudHNcV29ya2k3XFRheG9ub215X3B5ZGV2XFRheG9ub215XHNyY1xPdXRwdXRc<parka>C:\Users\dominic\Documents\Worki7\Taxonomy_pydev\Taxonomy\src\Output\
-WorkDir<parka>QzpcVXNlcnNcZG9taW5pY1xEb2N1bWVudHNcV29ya2k3XFRheG9ub215X3B5ZGV2XFRheG9ub215XHNyY1w=<parka>C:\Users\dominic\Documents\Worki7\Taxonomy_pydev\Taxonomy\src\
-appDir<parka>QzpcVXNlcnNcZG9taW5pY1xEb2N1bWVudHNcV29ya2k3XFRheG9ub215X3B5ZGV2XFRheG9ub215XHNyY1xhcHBzXA==<parka>C:\Users\dominic\Documents\Worki7\Taxonomy_pydev\Taxonomy\src\apps\
-logUD<parka>QzpcVXNlcnNcZG9taW5pY1xEb2N1bWVudHNcV29ya2k3XFRheG9ub215X3B5ZGV2XFRheG9ub215XHNyY1xsb2dc<parka>C:\Users\dominic\Documents\Worki7\Taxonomy_pydev\Taxonomy\src\log\
+outUD<parka>QzpcVXNlcnNcZG9taW5pY1xnaXRcdGF4b25vbXlcVGF4b25vbXlcc3JjXE91dHB1dFw=<parka>C:\Users\dominic\git\taxonomy\Taxonomy\src\Output\
+WorkDir<parka>QzpcVXNlcnNcZG9taW5pY1xnaXRcdGF4b25vbXlcVGF4b25vbXlcc3JjXA==<parka>C:\Users\dominic\git\taxonomy\Taxonomy\src\
+appDir<parka>QzpcVXNlcnNcZG9taW5pY1xnaXRcdGF4b25vbXlcVGF4b25vbXlcc3JjXGFwcHNc<parka>C:\Users\dominic\git\taxonomy\Taxonomy\src\apps\
+logUD<parka>QzpcVXNlcnNcZG9taW5pY1xnaXRcdGF4b25vbXlcVGF4b25vbXlcc3JjXGxvZ1w=<parka>C:\Users\dominic\git\taxonomy\Taxonomy\src\log\
 subRoutineDir<parka>QzpcVXNlcnNcZG9taW5pY1xFY2xpcHNlV29ya3NwYWNlXG5ld19weUNvcmVcc3JjXA==<parka>C:\Users\dominic\EclipseWorkspace\new_pyCore\src\
-UD<parka>QzpcVXNlcnNcZG9taW5pY1xEb2N1bWVudHNcV29ya2k3XFRheG9ub215X3B5ZGV2XFRheG9ub215XHNyY1w=<parka>C:\Users\dominic\Documents\Worki7\Taxonomy_pydev\Taxonomy\src\
+UD<parka>QzpcVXNlcnNcZG9taW5pY1xnaXRcdGF4b25vbXlcVGF4b25vbXlcc3JjXA==<parka>C:\Users\dominic\git\taxonomy\Taxonomy\src\

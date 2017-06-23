@@ -27,7 +27,7 @@ for l in execList:
     exec l
     
 
-import Tax.GiToTax as T
+import Tax.AccToTax as T
 import Tax.LabelFasta as LF
 
 location = LOC.LocationObj(locationdict =location)
@@ -65,10 +65,13 @@ RunControl = {
 
 
 ##Make sure all the files especially gi_taxid_nucl are in taxdmp
+## Get : gi_taxid_nucl.zip and taxdmp.zip extract both
 ##Get them from here:  ftp://ftp.ncbi.nih.gov/pub/taxonomy/
+##Get acc to tax: ftp://ftp.ncbi.nih.gov/pub/taxonomy/accession2taxid/
 
-txDir = 'C:\\Users\\dominic\\Documents\\Worki7\\Taxonomy_pydev\\taxonomy_db\\taxdmp\\'
 
+
+txDir = "J:/taxonomy/"
 
 #databaseUD = 'C:\\Users\\dominic\\Documents\\Worki7\\Taxonomy\\'
 
@@ -77,7 +80,7 @@ if RunControl['prep_taxneigh']:
     import Tax.GiToTax as T
     #CUSTOMIZE
     
-    gitax_path = os.path.join(txDir,'gi_taxid_nucl.dmp')
+    gitax_path = os.path.join(txDir,'nucl_gb.accession2taxid')
     gi_tax = T. BinarySearch(gitax_path)
     
         
@@ -111,8 +114,22 @@ if RunControl['prep_taxneigh']:
             tDB[t].RecordSpeciesIndex(species_index_Lst)
         TaxDB.TaxonDict.update(tDB)
    
+def combine_files(infolder, search_str, ofp):
+    ofn = open(ofp, 'w')
+    for root, dir, files in os.walk(infolder):
+        print 'root: ', root
+        print ""
+        for items in fnmatch.filter(files, search_str):
+                print "..." + items
+                if '.fna' in items:
+                    b = open(os.path.join(root, items)).read()
+                    ofn.write(b)
+                    
+        print ""
+    ofn.close()
 
-def FASTA_giToTaxDict(GiToTaxDict, IFN, workingUD, SpecialInstructionDict = {}, Tax_Level='species'):
+    
+def FASTA_accToTaxDict(AccToTaxDict, IFN, workingUD, SpecialInstructionDict = {}, Tax_Level='species'):
     ##This makes new file with taxID as part of label But it Uses a pre-determined giToTaxID dictionary
     #This is modfified to use the taxon object that can generate a label at the species level
     ifn = IFN.fn
@@ -125,6 +142,7 @@ def FASTA_giToTaxDict(GiToTaxDict, IFN, workingUD, SpecialInstructionDict = {}, 
     LabelLst = []
     oDB = []
     c = 0
+    l = []
     while 1:
         inbuff = inFP.read(10000000)
         print '%i records Read at : %s' %(len(oDB), str(inFP.tell()))
@@ -135,26 +153,21 @@ def FASTA_giToTaxDict(GiToTaxDict, IFN, workingUD, SpecialInstructionDict = {}, 
             outFP.write(inbuff)
             continue
         inLst = inbuff.split('>')
+        print "inLst has %i segments"%len(inLst), inLst[1][:100]
+        outFP.write(inLst.pop(0))
         for sObj in inLst:
             c+=1
             if not(sObj):continue
             label = sObj[:sObj.find('\n')]
-            if not('|' in label):
-                outFP.write(sObj)
-                continue
-            gi = label.split('|')[1]
-            if not(gi):
-                tax_label = 'unknown'
-                taxID = -1
+            acc = label.split(' ')[0]
+            taxon = AccToTaxDict[acc]
+            if Tax_Level == 'no rank':
+                tax_label = taxon.no_rankLabel()
+            elif Tax_Level == 'subspecies':
+                tax_label = taxon.subspeciesLabel()
             else:
-                taxon = GiToTaxDict[int(gi)]
-                if Tax_Level == 'no rank':
-                    tax_label = taxon.no_rankLabel()
-                elif Tax_Level == 'subspecies':
-                    tax_label = taxon.subspeciesLabel()
-                else:
-                    tax_label = taxon.speciesLabel()
-                taxID = taxon.species
+                tax_label = taxon.speciesLabel()
+            taxID = taxon.species
             if SpecialInstructionDict:
                 si = SpecialInstructionDict[taxID]
                 if si =='dump': 
@@ -167,11 +180,11 @@ def FASTA_giToTaxDict(GiToTaxDict, IFN, workingUD, SpecialInstructionDict = {}, 
             wbuff = '>%s|%s' %(tax_label, sObj)
             newLabel = wbuff[:wbuff.find('\n')]
            
-            LabelLst.append([c, gi, taxID, newLabel])
+            LabelLst.append([c, acc, taxID, newLabel])
             outFP.write(wbuff)
-            oDB.append([gi, taxID])
-    
-    OFN = FA.path([workingUD,'gi-txid_'+ifn],fileType = 'tab')
+            oDB.append([acc, taxID])
+    print '\n'.join(l)
+    OFN = FA.path([workingUD,'acc-txid_'+ifn],fileType = 'tab')
     OFN.outDB(oDB)
     print 'yo'+ workingUD+'txLabelLst_'+ifn
     OFN = FA.path([workingUD,'txLabelLst_'+ifn],fileType = 'tab')
@@ -183,30 +196,21 @@ if __name__ == '__main__':
         cmd = """x.python M:   """
         fnLst = [
                  #"M:/bacteria_refseq/112914_Norovirus/norovirus_bgdb.fasta"
-                #"M:/bacteria_refseq/11052014_Run/InCommonintervals_all_Leptospira-0.30.fasta"
-                "M:/GGenomics/PaulSchaud_150917/39824_sequence.fasta"
+                 #"M:/bacteria_refseq/11052014_Run/InCommonintervals_all_Leptospira-0.30.fasta"
+                 #M:\GGenomics\20170615_design
+                 "M:/GGenomics/20170615_design/entero_sequence.fasta",
+                 "M:/GGenomics/20170615_design/strep_sequence.fasta"
         ]
     else:
         fnLst = sys.argv[1:]
         
-    ofn = open('M:/GGenomics/PaulSchaud_150917/BGDB_allvir.fa', 'w')
-    for root, dir, files in os.walk("M:/GGenomics/PaulSchaud_160110/all.fna/"):
-        print 'root: ', root
-        print ""
-        for items in fnmatch.filter(files, "*"):
-                print "..." + items
-                if '.fna' in items:
-                    b = open(os.path.join(root, items)).read()
-                    ofn.write(b)
-                    
-        print ""
-    ofn.close()
+    combine_files("M:/GGenomics/20170615_design/", "_sequence.fasta", "M:/GGenomics/20170615_design/bgdb_bact.fa")
     
-    fnLst = ['M:/GGenomics/PaulSchaud_150917/BGDB_allvir.fa']
+    fnLst = ["M:/GGenomics/20170615_design/strep_sequence.fasta"]
     for inpath in fnLst:
         IFN= FA.path(inpath)
         workingUD = os.path.dirname(inpath)+'/'
-        FASTA_giToTaxDict(TaxDB, IFN, workingUD, SpecialInstructionDict = {}, Tax_Level='species')
+        FASTA_accToTaxDict(TaxDB, IFN, workingUD, SpecialInstructionDict = {}, Tax_Level='species')
     
 
         
